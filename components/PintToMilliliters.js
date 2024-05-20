@@ -2,57 +2,57 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import CustomIcon from './CustomIcon';
 
-const PoundsToKgConverter = () => {
-  const [kilograms, setKilograms] = useState('');
-  const [pounds, setPounds] = useState('');
+const PintToMilliliters = () => {
+  const [milliliters, setMilliliters] = useState('');
+  const [pints, setPints] = useState('');
 
-  const handleKilogramsChange = (value) => {
+  const handleMillilitersChange = (value) => {
     value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
-    setKilograms(value);
+
+    setMilliliters(value);
     if (value === '') {
-      setPounds('');
+      setPints('');
       return;
     }
-    const kilogramsValue = parseFloat(value);
-    const poundsValue = kilogramsValue * 2.20462;
-    setPounds(poundsValue.toFixed(2).toString() + ' lbs');
+    const millilitersValue = parseFloat(value);
+    const pintsValue = millilitersValue / 473.176;  // Use division to convert ml to pints
+    setPints(pintsValue.toFixed(2).toString() + ' pt (US)');
   };
-  
-  const handlePoundsChange = (value) => {
+
+  const handlePintsChange = (value) => {
     value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
-    setPounds(value);
+
+    setPints(value);
     if (value === '') {
-      setKilograms('');
+      setMilliliters('');
       return;
     }
-    const poundsValue = parseFloat(value);
-    const kilogramsValue = poundsValue / 2.20462;
-    setKilograms(kilogramsValue.toFixed(2).toString() + ' kg');
+    const pintsValue = parseFloat(value);
+    const millilitersValue = pintsValue * 473.176;  // Use multiplication to convert pints to ml
+    setMilliliters(millilitersValue.toFixed(2).toString() + ' ml');
   };
-  
+
   const clearInput = () => {
-    setKilograms('');
-    setPounds('');
+    setMilliliters('');
+    setPints('');
   };
 
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Pounds (lbs)"
-        value={pounds}
-        onChangeText={handlePoundsChange}
+        placeholder="Pints (US pt)"
+        value={pints}
+        onChangeText={handlePintsChange}
         onFocus={clearInput}
         keyboardType="numeric"
       />
       <CustomIcon />
       <TextInput
         style={styles.input}
-        placeholder="Kilograms (kg)"
-        value={kilograms}
-        onChangeText={handleKilogramsChange}
+        placeholder="Milliliters (ml)"
+        value={milliliters}
+        onChangeText={handleMillilitersChange}
         onFocus={clearInput}
         keyboardType="numeric"
       />
@@ -78,4 +78,5 @@ const styles = StyleSheet.create({
     width: '40%',
   },
 });
-export default PoundsToKgConverter;
+
+export default PintToMilliliters;

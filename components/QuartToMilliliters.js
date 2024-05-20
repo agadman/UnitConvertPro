@@ -2,57 +2,57 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import CustomIcon from './CustomIcon';
 
-const PoundsToKgConverter = () => {
-  const [kilograms, setKilograms] = useState('');
-  const [pounds, setPounds] = useState('');
+const QuartToMilliliters = () => {
+  const [milliliters, setMilliliters] = useState('');
+  const [quarts, setQuarts] = useState('');
 
-  const handleKilogramsChange = (value) => {
+  const handleMillilitersChange = (value) => {
     value = value.replace(/,/g, '.').replace(/\./g, '.');
   
-    setKilograms(value);
+    setMilliliters(value);
     if (value === '') {
-      setPounds('');
+      setQuarts('');
       return;
     }
-    const kilogramsValue = parseFloat(value);
-    const poundsValue = kilogramsValue * 2.20462;
-    setPounds(poundsValue.toFixed(2).toString() + ' lbs');
+    const millilitersValue = parseFloat(value);
+    const quartsValue = millilitersValue * 0.001057;
+    setQuarts(quartsValue.toFixed(2).toString() + ' qt');
   };
   
-  const handlePoundsChange = (value) => {
+  const handleQuartsChange = (value) => {
     value = value.replace(/,/g, '.').replace(/\./g, '.');
   
-    setPounds(value);
+    setQuarts(value);
     if (value === '') {
-      setKilograms('');
+      setMilliliters('');
       return;
     }
-    const poundsValue = parseFloat(value);
-    const kilogramsValue = poundsValue / 2.20462;
-    setKilograms(kilogramsValue.toFixed(2).toString() + ' kg');
+    const quartsValue = parseFloat(value);
+    const millilitersValue = quartsValue / 0.001057;
+    setMilliliters(millilitersValue.toFixed(2).toString() + ' ml');
   };
   
   const clearInput = () => {
-    setKilograms('');
-    setPounds('');
+    setMilliliters('');
+    setQuarts('');
   };
 
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Pounds (lbs)"
-        value={pounds}
-        onChangeText={handlePoundsChange}
+        placeholder="Quarts (qt)"
+        value={quarts}
+        onChangeText={handleQuartsChange}
         onFocus={clearInput}
         keyboardType="numeric"
       />
       <CustomIcon />
       <TextInput
         style={styles.input}
-        placeholder="Kilograms (kg)"
-        value={kilograms}
-        onChangeText={handleKilogramsChange}
+        placeholder="Milliliters (ml)"
+        value={milliliters}
+        onChangeText={handleMillilitersChange}
         onFocus={clearInput}
         keyboardType="numeric"
       />
@@ -78,4 +78,4 @@ const styles = StyleSheet.create({
     width: '40%',
   },
 });
-export default PoundsToKgConverter;
+export default QuartToMilliliters;

@@ -2,57 +2,57 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import CustomIcon from './CustomIcon';
 
-const PoundsToKgConverter = () => {
-  const [kilograms, setKilograms] = useState('');
-  const [pounds, setPounds] = useState('');
+const YardsToKilometers = () => {
+  const [kilometers, setKilometers] = useState('');
+  const [yards, setYards] = useState('');
 
-  const handleKilogramsChange = (value) => {
+  const handleKilometersChange = (value) => {
     value = value.replace(/,/g, '.').replace(/\./g, '.');
   
-    setKilograms(value);
+    setKilometers(value);
     if (value === '') {
-      setPounds('');
+      setYards('');
       return;
     }
-    const kilogramsValue = parseFloat(value);
-    const poundsValue = kilogramsValue * 2.20462;
-    setPounds(poundsValue.toFixed(2).toString() + ' lbs');
+    const kilometersValue = parseFloat(value);
+    const yardsValue = kilometersValue * 1093.61;
+    setYards(yardsValue.toFixed(2).toString() + ' yd');
   };
   
-  const handlePoundsChange = (value) => {
+  const handleYardsChange = (value) => {
     value = value.replace(/,/g, '.').replace(/\./g, '.');
   
-    setPounds(value);
+    setYards(value);
     if (value === '') {
-      setKilograms('');
+      setKilometers('');
       return;
     }
-    const poundsValue = parseFloat(value);
-    const kilogramsValue = poundsValue / 2.20462;
-    setKilograms(kilogramsValue.toFixed(2).toString() + ' kg');
+    const yardsValue = parseFloat(value);
+    const kilometersValue = yardsValue / 1093.61;
+    setKilometers(kilometersValue.toFixed(2).toString() + ' km');
   };
-  
+
   const clearInput = () => {
-    setKilograms('');
-    setPounds('');
+    setKilometers('');
+    setYards('');
   };
 
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Pounds (lbs)"
-        value={pounds}
-        onChangeText={handlePoundsChange}
+        placeholder="Yards (yd)"
+        value={yards}
+        onChangeText={handleYardsChange}
         onFocus={clearInput}
         keyboardType="numeric"
       />
       <CustomIcon />
       <TextInput
         style={styles.input}
-        placeholder="Kilograms (kg)"
-        value={kilograms}
-        onChangeText={handleKilogramsChange}
+        placeholder="Kilometers (km)"
+        value={kilometers}
+        onChangeText={handleKilometersChange}
         onFocus={clearInput}
         keyboardType="numeric"
       />
@@ -78,4 +78,4 @@ const styles = StyleSheet.create({
     width: '40%',
   },
 });
-export default PoundsToKgConverter;
+export default YardsToKilometers;

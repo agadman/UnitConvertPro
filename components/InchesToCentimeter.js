@@ -2,57 +2,57 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import CustomIcon from './CustomIcon';
 
-const PoundsToKgConverter = () => {
-  const [kilograms, setKilograms] = useState('');
-  const [pounds, setPounds] = useState('');
+const InchesToCentimeter = () => {
+  const [centimeters, setCentimeters] = useState('');
+  const [inches, setInches] = useState('');
 
-  const handleKilogramsChange = (value) => {
+  const handleCentimetersChange = (value) => {
     value = value.replace(/,/g, '.').replace(/\./g, '.');
   
-    setKilograms(value);
+    setCentimeters(value);
     if (value === '') {
-      setPounds('');
+      setInches('');
       return;
     }
-    const kilogramsValue = parseFloat(value);
-    const poundsValue = kilogramsValue * 2.20462;
-    setPounds(poundsValue.toFixed(2).toString() + ' lbs');
+    const centimetersValue = parseFloat(value);
+    const inchesValue = centimetersValue / 2.54;
+    setInches(inchesValue.toFixed(2).toString() + ' in');
   };
   
-  const handlePoundsChange = (value) => {
+  const handleInchesChange = (value) => {
     value = value.replace(/,/g, '.').replace(/\./g, '.');
   
-    setPounds(value);
+    setInches(value);
     if (value === '') {
-      setKilograms('');
+      setCentimeters('');
       return;
     }
-    const poundsValue = parseFloat(value);
-    const kilogramsValue = poundsValue / 2.20462;
-    setKilograms(kilogramsValue.toFixed(2).toString() + ' kg');
+    const inchesValue = parseFloat(value);
+    const centimetersValue = inchesValue * 2.54;
+    setCentimeters(centimetersValue.toFixed(2).toString() + ' cm');
   };
   
   const clearInput = () => {
-    setKilograms('');
-    setPounds('');
+    setCentimeters('');
+    setInches('');
   };
 
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Pounds (lbs)"
-        value={pounds}
-        onChangeText={handlePoundsChange}
+        placeholder="Inches (in)"
+        value={inches}
+        onChangeText={handleInchesChange}
         onFocus={clearInput}
         keyboardType="numeric"
       />
       <CustomIcon />
       <TextInput
         style={styles.input}
-        placeholder="Kilograms (kg)"
-        value={kilograms}
-        onChangeText={handleKilogramsChange}
+        placeholder="Centimeters (cm)"
+        value={centimeters}
+        onChangeText={handleCentimetersChange}
         onFocus={clearInput}
         keyboardType="numeric"
       />
@@ -78,4 +78,4 @@ const styles = StyleSheet.create({
     width: '40%',
   },
 });
-export default PoundsToKgConverter;
+export default InchesToCentimeter;

@@ -1,10 +1,10 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, ImageBackground, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import TemperatureConverter from './components/TemperatureConverter';
-import LengthConverter from './components/InchesToMeterConverter';
-import PoundsToKgConverter from './components/PoundsToKgConverter';
-import OuncesToKgConverter from './components/OuncesToKgConverter';
+import Swiper from 'react-native-swiper';
+import FavoriteConverters from './components/FavoriteConverters';
+import LengthUnits from './components/LengthUnits';
+import WeightAndVolume from './components/WeightAndVolume';
 
 export default function App() {
   return (
@@ -14,14 +14,24 @@ export default function App() {
           <StatusBar style="auto" />
           <View style={styles.textContainer}>
             <Text style={styles.header}>Converter</Text>
-            <Text style={styles.text}>Your every day friend</Text>
           </View>
-          <View style={styles.converters}>
-            <TemperatureConverter />
-            <LengthConverter />
-            <PoundsToKgConverter />
-            <OuncesToKgConverter />
-          </View>
+          <Swiper
+            style={styles.swiper}
+            showsPagination={true}
+            loop={false}
+            dotStyle={styles.paginationDot}
+            activeDotStyle={styles.activePaginationDot}
+          >
+            <View style={styles.slide}>
+              <FavoriteConverters />
+            </View>
+            <View style={styles.slide}>
+              <LengthUnits />
+            </View>
+            <View style={styles.slide}>
+              <WeightAndVolume />
+            </View>
+          </Swiper>
         </ImageBackground>
       </View>
     </TouchableWithoutFeedback>
@@ -39,22 +49,38 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textContainer: {
-    flex: 1,
+    marginTop: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
   header: {
-    fontSize: 36,
+    fontSize: 40,
     fontWeight: 'bold',
     color: 'white',
+    marginTop: 100,
+    marginBottom: 5, 
   },
-  text: {
-    fontSize: 20,
-    color: 'white',
+  swiper: {
+    alignSelf: 'center',
   },
-  converters: {
-    flex: 1,
+  slide: {
     alignItems: 'center',
-    justifyContent: 'flex-start',
-  }
+    justifyContent: 'center',
+  },
+  paginationDot: {
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    margin: 3,
+    bottom: 30,
+  },
+  activePaginationDot: {
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    margin: 3,
+    bottom: 30,
+  },
 });

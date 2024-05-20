@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import ClearButton from './ClearButton';
+import { View, TextInput, StyleSheet } from 'react-native';
+import CustomIcon from './CustomIcon';
 
 const OuncesToKgConverter = () => {
   const [kilograms, setKilograms] = useState('');
   const [ounces, setOunces] = useState('');
 
   const handleKilogramsChange = (value) => {
+    value = value.replace(/,/g, '.').replace(/\./g, '.');
+  
     setKilograms(value);
     if (value === '') {
       setOunces('');
@@ -17,8 +18,10 @@ const OuncesToKgConverter = () => {
     const ouncesValue = kilogramsValue * 35.274;
     setOunces(ouncesValue.toFixed(2).toString() + ' oz');
   };
-
+  
   const handleOuncesChange = (value) => {
+    value = value.replace(/,/g, '.').replace(/\./g, '.');
+  
     setOunces(value);
     if (value === '') {
       setKilograms('');
@@ -28,40 +31,32 @@ const OuncesToKgConverter = () => {
     const kilogramsValue = ouncesValue / 35.274;
     setKilograms(kilogramsValue.toFixed(2).toString() + ' kg');
   };
-
+  
   const clearInput = () => {
-    setOunces('');
     setKilograms('');
+    setOunces('');
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
-    >
-      <ScrollView>
-        <View style={styles.container}>
-          <TextInput
-            style={styles.input}
-            placeholder="Ounces(oz)"
-            value={ounces}
-            onChangeText={handleOuncesChange}
-            onFocus={() => clearInput(setOunces)}
-            keyboardType="numeric"
-          />
-          <FontAwesome name="exchange" size={20} color="white" />
-          <TextInput
-            style={styles.input}
-            placeholder="Kilograms(kg)"
-            value={kilograms}
-            onChangeText={handleKilogramsChange}
-            onFocus={() => clearInput(setKilograms)}
-            keyboardType="numeric"
-          />
-          <ClearButton clearInput={clearInput} />
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder="Ounces (oz)"
+        value={ounces}
+        onChangeText={handleOuncesChange}
+        onFocus={clearInput}
+        keyboardType="numeric"
+      />
+      <CustomIcon />
+      <TextInput
+        style={styles.input}
+        placeholder="Kilograms (kg)"
+        value={kilograms}
+        onChangeText={handleKilogramsChange}
+        onFocus={clearInput}
+        keyboardType="numeric"
+      />
+    </View>
   );
 };
 
@@ -76,10 +71,11 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderRadius: 10,
     margin: 10,
-    padding: 10,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 10,
     backgroundColor: 'white',
-    width: '30%',
+    width: '40%',
   },
 });
-
 export default OuncesToKgConverter;

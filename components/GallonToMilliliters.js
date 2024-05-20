@@ -2,57 +2,57 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import CustomIcon from './CustomIcon';
 
-const PoundsToKgConverter = () => {
-  const [kilograms, setKilograms] = useState('');
-  const [pounds, setPounds] = useState('');
+const GallonToMilliliters = () => {
+  const [milliliters, setMilliliters] = useState('');
+  const [gallons, setGallons] = useState('');
 
-  const handleKilogramsChange = (value) => {
+  const handleMillilitersChange = (value) => {
     value = value.replace(/,/g, '.').replace(/\./g, '.');
   
-    setKilograms(value);
+    setMilliliters(value);
     if (value === '') {
-      setPounds('');
+      setGallons('');
       return;
     }
-    const kilogramsValue = parseFloat(value);
-    const poundsValue = kilogramsValue * 2.20462;
-    setPounds(poundsValue.toFixed(2).toString() + ' lbs');
+    const millilitersValue = parseFloat(value);
+    const gallonsValue = millilitersValue * 0.000264172;
+    setGallons(gallonsValue.toFixed(2).toString() + ' gal');
   };
   
-  const handlePoundsChange = (value) => {
+  const handleGallonsChange = (value) => {
     value = value.replace(/,/g, '.').replace(/\./g, '.');
   
-    setPounds(value);
+    setGallons(value);
     if (value === '') {
-      setKilograms('');
+      setMilliliters('');
       return;
     }
-    const poundsValue = parseFloat(value);
-    const kilogramsValue = poundsValue / 2.20462;
-    setKilograms(kilogramsValue.toFixed(2).toString() + ' kg');
+    const gallonsValue = parseFloat(value);
+    const millilitersValue = gallonsValue / 0.000264172;
+    setMilliliters(millilitersValue.toFixed(2).toString() + ' ml');
   };
   
   const clearInput = () => {
-    setKilograms('');
-    setPounds('');
+    setMilliliters('');
+    setGallons('');
   };
 
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Pounds (lbs)"
-        value={pounds}
-        onChangeText={handlePoundsChange}
+        placeholder="Gallons (gal)"
+        value={gallons}
+        onChangeText={handleGallonsChange}
         onFocus={clearInput}
         keyboardType="numeric"
       />
       <CustomIcon />
       <TextInput
         style={styles.input}
-        placeholder="Kilograms (kg)"
-        value={kilograms}
-        onChangeText={handleKilogramsChange}
+        placeholder="Milliliters (ml)"
+        value={milliliters}
+        onChangeText={handleMillilitersChange}
         onFocus={clearInput}
         keyboardType="numeric"
       />
@@ -78,4 +78,4 @@ const styles = StyleSheet.create({
     width: '40%',
   },
 });
-export default PoundsToKgConverter;
+export default GallonToMilliliters;

@@ -2,57 +2,57 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import CustomIcon from './CustomIcon';
 
-const PoundsToKgConverter = () => {
-  const [kilograms, setKilograms] = useState('');
-  const [pounds, setPounds] = useState('');
+const SquareFeetToSquareMeters = () => {
+  const [squareMeters, setSquareMeters] = useState('');
+  const [squareFeet, setSquareFeet] = useState('');
 
-  const handleKilogramsChange = (value) => {
+  const handleSquareMetersChange = (value) => {
     value = value.replace(/,/g, '.').replace(/\./g, '.');
   
-    setKilograms(value);
+    setSquareMeters(value);
     if (value === '') {
-      setPounds('');
+      setSquareFeet('');
       return;
     }
-    const kilogramsValue = parseFloat(value);
-    const poundsValue = kilogramsValue * 2.20462;
-    setPounds(poundsValue.toFixed(2).toString() + ' lbs');
+    const squareMetersValue = parseFloat(value);
+    const squareFeetValue = squareMetersValue * 10.7639;
+    setSquareFeet(squareFeetValue.toFixed(2).toString() + ' sq ft');
   };
   
-  const handlePoundsChange = (value) => {
+  const handleSquareFeetChange = (value) => {
     value = value.replace(/,/g, '.').replace(/\./g, '.');
   
-    setPounds(value);
+    setSquareFeet(value);
     if (value === '') {
-      setKilograms('');
+      setSquareMeters('');
       return;
     }
-    const poundsValue = parseFloat(value);
-    const kilogramsValue = poundsValue / 2.20462;
-    setKilograms(kilogramsValue.toFixed(2).toString() + ' kg');
+    const squareFeetValue = parseFloat(value);
+    const squareMetersValue = squareFeetValue / 10.7639;
+    setSquareMeters(squareMetersValue.toFixed(2).toString() + ' sq m');
   };
   
   const clearInput = () => {
-    setKilograms('');
-    setPounds('');
+    setSquareMeters('');
+    setSquareFeet('');
   };
 
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Pounds (lbs)"
-        value={pounds}
-        onChangeText={handlePoundsChange}
+        placeholder="Square Meters (sq m)"
+        value={squareMeters}
+        onChangeText={handleSquareMetersChange}
         onFocus={clearInput}
         keyboardType="numeric"
       />
       <CustomIcon />
       <TextInput
         style={styles.input}
-        placeholder="Kilograms (kg)"
-        value={kilograms}
-        onChangeText={handleKilogramsChange}
+        placeholder="Square Feet (sq ft)"
+        value={squareFeet}
+        onChangeText={handleSquareFeetChange}
         onFocus={clearInput}
         keyboardType="numeric"
       />
@@ -78,4 +78,4 @@ const styles = StyleSheet.create({
     width: '40%',
   },
 });
-export default PoundsToKgConverter;
+export default SquareFeetToSquareMeters;

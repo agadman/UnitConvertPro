@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import ClearButton from './ClearButton';
+import { View, TextInput, StyleSheet } from 'react-native';
+import CustomIcon from './CustomIcon';
 
-const TemperatureConverter = () => {
+const FahrenheitToCelsius = () => {
   const [celsius, setCelsius] = useState('');
   const [fahrenheit, setFahrenheit] = useState('');
 
   const handleCelsiusChange = (value) => {
+    // Replace commas and dots with dots
+    value = value.replace(/,/g, '.').replace(/\./g, '.');
+  
     setCelsius(value);
     if (value === '') {
       setFahrenheit('');
@@ -17,8 +19,11 @@ const TemperatureConverter = () => {
     const fahrenheitValue = (celsiusValue * 9 / 5) + 32;
     setFahrenheit(fahrenheitValue.toFixed(2).toString() + ' F');
   };
-
+  
   const handleFahrenheitChange = (value) => {
+    // Replace commas and dots with dots
+    value = value.replace(/,/g, '.').replace(/\./g, '.');
+  
     setFahrenheit(value);
     if (value === '') {
       setCelsius('');
@@ -28,6 +33,7 @@ const TemperatureConverter = () => {
     const celsiusValue = (fahrenheitValue - 32) * 5 / 9;
     setCelsius(celsiusValue.toFixed(2).toString() + ' C');
   };
+  
 
   const clearInput = () => {
     setCelsius('');
@@ -35,11 +41,6 @@ const TemperatureConverter = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
-    >
-      <ScrollView>
         <View style={styles.container}>
           <TextInput
             style={styles.input}
@@ -49,7 +50,7 @@ const TemperatureConverter = () => {
             onFocus={() => clearInput(setFahrenheit)}
             keyboardType="numeric"
           />
-          <FontAwesome name="exchange" size={20} color="white" />
+          <CustomIcon />
           <TextInput
             style={styles.input}
             placeholder="Celsius(C)"
@@ -58,10 +59,7 @@ const TemperatureConverter = () => {
             onFocus={() => clearInput(setCelsius)}
             keyboardType="numeric"
           />
-          <ClearButton clearInput={clearInput} />
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
   );
 };
 
@@ -76,10 +74,12 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderRadius: 10,
     margin: 10,
-    padding: 10,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 10,
     backgroundColor: 'white',
-    width: '30%',
+    width: '40%',
   },
 });
 
-export default TemperatureConverter;
+export default FahrenheitToCelsius;

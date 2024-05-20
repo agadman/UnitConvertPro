@@ -50,7 +50,7 @@ const FahrenheitToCelsius = () => {
             onFocus={() => clearInput(setFahrenheit)}
             keyboardType="numeric"
           />
-          <CustomIcon />
+          <CustomIcon size={20} color="white" />
           <TextInput
             style={styles.input}
             placeholder="Celsius(C)"

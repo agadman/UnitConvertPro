@@ -47,7 +47,7 @@ const MilesToKilometers = () => {
         onFocus={clearInput}
         keyboardType="numeric"
       />
-      <CustomIcon/>
+      <CustomIcon size={20} color="white"/>
       <TextInput
         style={styles.input}
         placeholder="Kilometers (km)"

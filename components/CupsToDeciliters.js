@@ -47,7 +47,7 @@ const CupsToDeciliters = () => {
         onFocus={clearInput}
         keyboardType="numeric"
       />
-      <CustomIcon />
+      <CustomIcon size={20} color="white" />
       <TextInput
         style={styles.input}
         placeholder="Deciliters (dl)"

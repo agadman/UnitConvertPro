@@ -1,9 +1,8 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons';
+import { Image } from 'react-native';
 
-const CustomIcon = ({ size = 20, color = 'white' }) => {
-  return <FontAwesomeIcon icon={faExchangeAlt} size={size} color={color} />;
+const CustomIcon = ({ size = 24, color = 'white' }) => {
+  return <Image source={require('../assets/sort-by.png')} style={{ width: size, height: size, tintColor: color }} />;
 };
 
 export default CustomIcon;

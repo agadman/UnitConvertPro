@@ -7,30 +7,56 @@ const FeetToMeters = () => {
   const [feet, setFeet] = useState('');
 
   const handleMetersChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
-    setMeters(value);
-    if (value === '') {
-      setFeet('');
-      return;
-    }
-    const metersValue = parseFloat(value);
-    const feetValue = metersValue * 3.28084;
-    setFeet(feetValue.toFixed(2).toString() + ' ft');
-  };
-  
-  const handleFeetChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
-    setFeet(value);
-    if (value === '') {
+    try {
+      value = value.replace(/,/g, '.');
+
+      setMeters(value);
+
+      if (value === '') {
+        setFeet('');
+        return;
+      }
+
+      const metersValue = parseFloat(value);
+      if (isNaN(metersValue)) {
+        setFeet('');
+        return;
+      }
+
+      const feetValue = metersValue * 3.28084;
+      setFeet(feetValue.toFixed(2) + ' ft');
+    } catch (error) {
+      console.error('Error converting meters to feet:', error);
       setMeters('');
-      return;
+      setFeet('');
     }
-    const feetValue = parseFloat(value);
-    const metersValue = feetValue / 3.28084;
-    setMeters(metersValue.toFixed(2).toString() + ' m');
-  };  
+  };
+
+  const handleFeetChange = (value) => {
+    try {
+      value = value.replace(/,/g, '.');
+
+      setFeet(value);
+
+      if (value === '') {
+        setMeters('');
+        return;
+      }
+
+      const feetValue = parseFloat(value);
+      if (isNaN(feetValue)) {
+        setMeters('');
+        return;
+      }
+
+      const metersValue = feetValue / 3.28084;
+      setMeters(metersValue.toFixed(2) + ' m');
+    } catch (error) {
+      console.error('Error converting feet to meters:', error);
+      setMeters('');
+      setFeet('');
+    }
+  };
 
   const clearInput = () => {
     setMeters('');
@@ -47,7 +73,7 @@ const FeetToMeters = () => {
         onFocus={clearInput}
         keyboardType="numeric"
       />
-      <CustomIcon size={20} color="white" />
+      <CustomIcon />
       <TextInput
         style={styles.input}
         placeholder="Meters (m)"
@@ -70,7 +96,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 10,
-    margin: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 8,
+    marginRight: 8,
     paddingTop: 15,
     paddingBottom: 15,
     paddingLeft: 10,
@@ -78,4 +107,5 @@ const styles = StyleSheet.create({
     width: '40%',
   },
 });
+
 export default FeetToMeters;

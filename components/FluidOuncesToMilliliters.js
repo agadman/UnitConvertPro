@@ -7,31 +7,57 @@ const FluidOuncesToMilliliters = () => {
   const [fluidOunces, setFluidOunces] = useState('');
 
   const handleMillilitersChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
-    setMilliliters(value);
-    if (value === '') {
-      setFluidOunces('');
-      return;
-    }
-    const millilitersValue = parseFloat(value);
-    const fluidOuncesValue = millilitersValue * 0.033814;
-    setFluidOunces(fluidOuncesValue.toFixed(2).toString() + ' fl oz');
-  };
-  
-  const handleFluidOuncesChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
-    setFluidOunces(value);
-    if (value === '') {
+    try {
+      value = value.replace(/,/g, '.');
+
+      setMilliliters(value);
+
+      if (value === '') {
+        setFluidOunces('');
+        return;
+      }
+
+      const millilitersValue = parseFloat(value);
+      if (isNaN(millilitersValue)) {
+        setFluidOunces('');
+        return;
+      }
+
+      const fluidOuncesValue = millilitersValue * 0.033814;
+      setFluidOunces(fluidOuncesValue.toFixed(2) + ' fl oz');
+    } catch (error) {
+      console.error('Error converting milliliters to fluid ounces:', error);
       setMilliliters('');
-      return;
+      setFluidOunces('');
     }
-    const fluidOuncesValue = parseFloat(value);
-    const millilitersValue = fluidOuncesValue / 0.033814;
-    setMilliliters(millilitersValue.toFixed(2).toString() + ' ml');
   };
-  
+
+  const handleFluidOuncesChange = (value) => {
+    try {
+      value = value.replace(/,/g, '.');
+
+      setFluidOunces(value);
+
+      if (value === '') {
+        setMilliliters('');
+        return;
+      }
+
+      const fluidOuncesValue = parseFloat(value);
+      if (isNaN(fluidOuncesValue)) {
+        setMilliliters('');
+        return;
+      }
+
+      const millilitersValue = fluidOuncesValue / 0.033814;
+      setMilliliters(millilitersValue.toFixed(2) + ' ml');
+    } catch (error) {
+      console.error('Error converting fluid ounces to milliliters:', error);
+      setMilliliters('');
+      setFluidOunces('');
+    }
+  };
+
   const clearInput = () => {
     setMilliliters('');
     setFluidOunces('');
@@ -47,7 +73,7 @@ const FluidOuncesToMilliliters = () => {
         onFocus={clearInput}
         keyboardType="numeric"
       />
-      <CustomIcon size={20} color="white" />
+      <CustomIcon />
       <TextInput
         style={styles.input}
         placeholder="Milliliters (ml)"
@@ -70,7 +96,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 10,
-    margin: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 8,
+    marginRight: 8,
     paddingTop: 15,
     paddingBottom: 15,
     paddingLeft: 10,
@@ -78,4 +107,5 @@ const styles = StyleSheet.create({
     width: '40%',
   },
 });
+
 export default FluidOuncesToMilliliters;

@@ -7,31 +7,43 @@ const OuncesToKgConverter = () => {
   const [ounces, setOunces] = useState('');
 
   const handleKilogramsChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
+    value = value.replace(/,/g, '.');
+
     setKilograms(value);
     if (value === '') {
       setOunces('');
       return;
     }
+
     const kilogramsValue = parseFloat(value);
+    if (isNaN(kilogramsValue)) {
+      setOunces('');
+      return;
+    }
+
     const ouncesValue = kilogramsValue * 35.274;
-    setOunces(ouncesValue.toFixed(2).toString() + ' oz');
+    setOunces(ouncesValue.toFixed(2) + ' oz');
   };
-  
+
   const handleOuncesChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
+    value = value.replace(/,/g, '.');
+
     setOunces(value);
     if (value === '') {
       setKilograms('');
       return;
     }
+
     const ouncesValue = parseFloat(value);
+    if (isNaN(ouncesValue)) {
+      setKilograms('');
+      return;
+    }
+
     const kilogramsValue = ouncesValue / 35.274;
-    setKilograms(kilogramsValue.toFixed(2).toString() + ' kg');
+    setKilograms(kilogramsValue.toFixed(2) + ' kg');
   };
-  
+
   const clearInput = () => {
     setKilograms('');
     setOunces('');
@@ -47,7 +59,7 @@ const OuncesToKgConverter = () => {
         onFocus={clearInput}
         keyboardType="numeric"
       />
-      <CustomIcon size={20} color="white" />
+      <CustomIcon />
       <TextInput
         style={styles.input}
         placeholder="Kilograms (kg)"
@@ -70,7 +82,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 10,
-    margin: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 8,
+    marginRight: 8,
     paddingTop: 15,
     paddingBottom: 15,
     paddingLeft: 10,
@@ -78,4 +93,5 @@ const styles = StyleSheet.create({
     width: '40%',
   },
 });
+
 export default OuncesToKgConverter;

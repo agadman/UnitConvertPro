@@ -7,31 +7,57 @@ const GallonToMilliliters = () => {
   const [gallons, setGallons] = useState('');
 
   const handleMillilitersChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
-    setMilliliters(value);
-    if (value === '') {
-      setGallons('');
-      return;
-    }
-    const millilitersValue = parseFloat(value);
-    const gallonsValue = millilitersValue * 0.000264172;
-    setGallons(gallonsValue.toFixed(2).toString() + ' gal');
-  };
-  
-  const handleGallonsChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
-    setGallons(value);
-    if (value === '') {
+    try {
+      value = value.replace(/,/g, '.');
+
+      setMilliliters(value);
+
+      if (value === '') {
+        setGallons('');
+        return;
+      }
+
+      const millilitersValue = parseFloat(value);
+      if (isNaN(millilitersValue)) {
+        setGallons('');
+        return;
+      }
+
+      const gallonsValue = millilitersValue * 0.000264172;
+      setGallons(gallonsValue.toFixed(2) + ' gal');
+    } catch (error) {
+      console.error('Error converting milliliters to gallons:', error);
       setMilliliters('');
-      return;
+      setGallons('');
     }
-    const gallonsValue = parseFloat(value);
-    const millilitersValue = gallonsValue / 0.000264172;
-    setMilliliters(millilitersValue.toFixed(2).toString() + ' ml');
   };
-  
+
+  const handleGallonsChange = (value) => {
+    try {
+      value = value.replace(/,/g, '.');
+
+      setGallons(value);
+
+      if (value === '') {
+        setMilliliters('');
+        return;
+      }
+
+      const gallonsValue = parseFloat(value);
+      if (isNaN(gallonsValue)) {
+        setMilliliters('');
+        return;
+      }
+
+      const millilitersValue = gallonsValue / 0.000264172;
+      setMilliliters(millilitersValue.toFixed(2) + ' ml');
+    } catch (error) {
+      console.error('Error converting gallons to milliliters:', error);
+      setMilliliters('');
+      setGallons('');
+    }
+  };
+
   const clearInput = () => {
     setMilliliters('');
     setGallons('');
@@ -47,7 +73,7 @@ const GallonToMilliliters = () => {
         onFocus={clearInput}
         keyboardType="numeric"
       />
-      <CustomIcon size={20} color="white" />
+      <CustomIcon />
       <TextInput
         style={styles.input}
         placeholder="Milliliters (ml)"
@@ -70,7 +96,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 10,
-    margin: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 8,
+    marginRight: 8,
     paddingTop: 15,
     paddingBottom: 15,
     paddingLeft: 10,
@@ -78,4 +107,5 @@ const styles = StyleSheet.create({
     width: '40%',
   },
 });
+
 export default GallonToMilliliters;

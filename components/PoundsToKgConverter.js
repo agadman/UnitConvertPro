@@ -7,31 +7,43 @@ const PoundsToKgConverter = () => {
   const [pounds, setPounds] = useState('');
 
   const handleKilogramsChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
+    value = value.replace(/,/g, '.');
+
     setKilograms(value);
     if (value === '') {
       setPounds('');
       return;
     }
+
     const kilogramsValue = parseFloat(value);
+    if (isNaN(kilogramsValue)) {
+      setPounds('');
+      return;
+    }
+
     const poundsValue = kilogramsValue * 2.20462;
-    setPounds(poundsValue.toFixed(2).toString() + ' lbs');
+    setPounds(poundsValue.toFixed(2) + ' lbs');
   };
-  
+
   const handlePoundsChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
+    value = value.replace(/,/g, '.');
+
     setPounds(value);
     if (value === '') {
       setKilograms('');
       return;
     }
+
     const poundsValue = parseFloat(value);
+    if (isNaN(poundsValue)) {
+      setKilograms('');
+      return;
+    }
+
     const kilogramsValue = poundsValue / 2.20462;
-    setKilograms(kilogramsValue.toFixed(2).toString() + ' kg');
+    setKilograms(kilogramsValue.toFixed(2) + ' kg');
   };
-  
+
   const clearInput = () => {
     setKilograms('');
     setPounds('');
@@ -47,7 +59,7 @@ const PoundsToKgConverter = () => {
         onFocus={clearInput}
         keyboardType="numeric"
       />
-      <CustomIcon size={20} color="white" />
+      <CustomIcon />
       <TextInput
         style={styles.input}
         placeholder="Kilograms (kg)"
@@ -70,7 +82,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 10,
-    margin: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 8,
+    marginRight: 8,
     paddingTop: 15,
     paddingBottom: 15,
     paddingLeft: 10,
@@ -78,4 +93,5 @@ const styles = StyleSheet.create({
     width: '40%',
   },
 });
+
 export default PoundsToKgConverter;

@@ -7,29 +7,29 @@ const YardsToKilometers = () => {
   const [yards, setYards] = useState('');
 
   const handleKilometersChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
-    setKilometers(value);
-    if (value === '') {
-      setYards('');
-      return;
+    if (!value || /^\d*\.?\d*$/.test(value)) { // Validate input format
+      setKilometers(value);
+      if (value === '') {
+        setYards('');
+        return;
+      }
+      const kilometersValue = parseFloat(value);
+      const yardsValue = kilometersValue * 1093.61;
+      setYards(yardsValue.toFixed(2).toString() + ' yd');
     }
-    const kilometersValue = parseFloat(value);
-    const yardsValue = kilometersValue * 1093.61;
-    setYards(yardsValue.toFixed(2).toString() + ' yd');
   };
-  
+
   const handleYardsChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
-    setYards(value);
-    if (value === '') {
-      setKilometers('');
-      return;
+    if (!value || /^\d*\.?\d*$/.test(value)) { // Validate input format
+      setYards(value);
+      if (value === '') {
+        setKilometers('');
+        return;
+      }
+      const yardsValue = parseFloat(value);
+      const kilometersValue = yardsValue / 1093.61;
+      setKilometers(kilometersValue.toFixed(2).toString() + ' km');
     }
-    const yardsValue = parseFloat(value);
-    const kilometersValue = yardsValue / 1093.61;
-    setKilometers(kilometersValue.toFixed(2).toString() + ' km');
   };
 
   const clearInput = () => {
@@ -47,7 +47,7 @@ const YardsToKilometers = () => {
         onFocus={clearInput}
         keyboardType="numeric"
       />
-      <CustomIcon size={20} color="white" />
+      <CustomIcon />
       <TextInput
         style={styles.input}
         placeholder="Kilometers (km)"
@@ -70,7 +70,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 10,
-    margin: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 8,
+    marginRight: 8,
     paddingTop: 15,
     paddingBottom: 15,
     paddingLeft: 10,
@@ -78,4 +81,5 @@ const styles = StyleSheet.create({
     width: '40%',
   },
 });
+
 export default YardsToKilometers;

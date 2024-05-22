@@ -7,31 +7,43 @@ const QuartToMilliliters = () => {
   const [quarts, setQuarts] = useState('');
 
   const handleMillilitersChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
+    value = value.replace(/,/g, '.');
+
     setMilliliters(value);
     if (value === '') {
       setQuarts('');
       return;
     }
+
     const millilitersValue = parseFloat(value);
+    if (isNaN(millilitersValue)) {
+      setQuarts('');
+      return;
+    }
+
     const quartsValue = millilitersValue * 0.001057;
-    setQuarts(quartsValue.toFixed(2).toString() + ' qt');
+    setQuarts(quartsValue.toFixed(2) + ' qt');
   };
-  
+
   const handleQuartsChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
+    value = value.replace(/,/g, '.');
+
     setQuarts(value);
     if (value === '') {
       setMilliliters('');
       return;
     }
+
     const quartsValue = parseFloat(value);
+    if (isNaN(quartsValue)) {
+      setMilliliters('');
+      return;
+    }
+
     const millilitersValue = quartsValue / 0.001057;
-    setMilliliters(millilitersValue.toFixed(2).toString() + ' ml');
+    setMilliliters(millilitersValue.toFixed(2) + ' ml');
   };
-  
+
   const clearInput = () => {
     setMilliliters('');
     setQuarts('');
@@ -47,7 +59,7 @@ const QuartToMilliliters = () => {
         onFocus={clearInput}
         keyboardType="numeric"
       />
-      <CustomIcon size={20} color="white" />
+      <CustomIcon />
       <TextInput
         style={styles.input}
         placeholder="Milliliters (ml)"
@@ -70,7 +82,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 10,
-    margin: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 8,
+    marginRight: 8,
     paddingTop: 15,
     paddingBottom: 15,
     paddingLeft: 10,
@@ -78,4 +93,5 @@ const styles = StyleSheet.create({
     width: '40%',
   },
 });
+
 export default QuartToMilliliters;

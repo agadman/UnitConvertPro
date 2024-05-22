@@ -7,31 +7,55 @@ const InchesToCentimeter = () => {
   const [inches, setInches] = useState('');
 
   const handleCentimetersChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
-    setCentimeters(value);
-    if (value === '') {
-      setInches('');
-      return;
-    }
-    const centimetersValue = parseFloat(value);
-    const inchesValue = centimetersValue / 2.54;
-    setInches(inchesValue.toFixed(2).toString() + ' in');
-  };
-  
-  const handleInchesChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
-    setInches(value);
-    if (value === '') {
+    try {
+      value = value.replace(/,/g, '.');
+
+      setCentimeters(value);
+      if (value === '') {
+        setInches('');
+        return;
+      }
+
+      const centimetersValue = parseFloat(value);
+      if (isNaN(centimetersValue)) {
+        setInches('');
+        return;
+      }
+
+      const inchesValue = centimetersValue / 2.54;
+      setInches(inchesValue.toFixed(2) + ' in');
+    } catch (error) {
+      console.error('Error converting centimeters to inches:', error);
       setCentimeters('');
-      return;
+      setInches('');
     }
-    const inchesValue = parseFloat(value);
-    const centimetersValue = inchesValue * 2.54;
-    setCentimeters(centimetersValue.toFixed(2).toString() + ' cm');
   };
-  
+
+  const handleInchesChange = (value) => {
+    try {
+      value = value.replace(/,/g, '.');
+
+      setInches(value);
+      if (value === '') {
+        setCentimeters('');
+        return;
+      }
+
+      const inchesValue = parseFloat(value);
+      if (isNaN(inchesValue)) {
+        setCentimeters('');
+        return;
+      }
+
+      const centimetersValue = inchesValue * 2.54;
+      setCentimeters(centimetersValue.toFixed(2) + ' cm');
+    } catch (error) {
+      console.error('Error converting inches to centimeters:', error);
+      setInches('');
+      setCentimeters('');
+    }
+  };
+
   const clearInput = () => {
     setCentimeters('');
     setInches('');
@@ -47,7 +71,7 @@ const InchesToCentimeter = () => {
         onFocus={clearInput}
         keyboardType="numeric"
       />
-      <CustomIcon size={20} color="white" />
+      <CustomIcon />
       <TextInput
         style={styles.input}
         placeholder="Centimeters (cm)"
@@ -70,7 +94,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 10,
-    margin: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 8,
+    marginRight: 8,
     paddingTop: 15,
     paddingBottom: 15,
     paddingLeft: 10,
@@ -78,4 +105,5 @@ const styles = StyleSheet.create({
     width: '40%',
   },
 });
+
 export default InchesToCentimeter;

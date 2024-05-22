@@ -7,31 +7,43 @@ const MilesToKilometers = () => {
   const [miles, setMiles] = useState('');
 
   const handleKilometersChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
+    value = value.replace(/,/g, '.');
+
     setKilometers(value);
     if (value === '') {
       setMiles('');
       return;
     }
+
     const kilometersValue = parseFloat(value);
+    if (isNaN(kilometersValue)) {
+      setMiles('');
+      return;
+    }
+
     const milesValue = kilometersValue / 1.60934;
-    setMiles(milesValue.toFixed(2).toString() + ' miles');
+    setMiles(milesValue.toFixed(2) + ' miles');
   };
-  
+
   const handleMilesChange = (value) => {
-    value = value.replace(/,/g, '.').replace(/\./g, '.');
-  
+    value = value.replace(/,/g, '.');
+
     setMiles(value);
     if (value === '') {
       setKilometers('');
       return;
     }
+
     const milesValue = parseFloat(value);
+    if (isNaN(milesValue)) {
+      setKilometers('');
+      return;
+    }
+
     const kilometersValue = milesValue * 1.60934;
-    setKilometers(kilometersValue.toFixed(2).toString() + ' km');
+    setKilometers(kilometersValue.toFixed(2) + ' km');
   };
-  
+
   const clearInput = () => {
     setKilometers('');
     setMiles('');
@@ -47,7 +59,7 @@ const MilesToKilometers = () => {
         onFocus={clearInput}
         keyboardType="numeric"
       />
-      <CustomIcon size={20} color="white"/>
+      <CustomIcon />
       <TextInput
         style={styles.input}
         placeholder="Kilometers (km)"
@@ -70,7 +82,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 10,
-    margin: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 8,
+    marginRight: 8,
     paddingTop: 15,
     paddingBottom: 15,
     paddingLeft: 10,
@@ -78,4 +93,5 @@ const styles = StyleSheet.create({
     width: '40%',
   },
 });
+
 export default MilesToKilometers;

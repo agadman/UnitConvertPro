@@ -7,34 +7,59 @@ const CupsToDeciliters = () => {
   const [cups, setCups] = useState('');
 
   const handleDecilitersChange = (value) => {
-    value = value.replace(/,/g, '.');
+    try {
+      value = value.replace(/,/g, '.');
 
-    setDeciliters(value);
-    if (value === '') {
+      setDeciliters(value);
+
+      if (value === '') {
+        setCups('');
+        return;
+      }
+
+      const decilitersValue = parseFloat(value);
+      if (isNaN(decilitersValue)) {
+        setCups('');
+        return;
+      }
+
+      const cupsValue = decilitersValue * 0.422675; 
+      setCups(cupsValue.toFixed(2) + ' cups');
+    } catch (error) {
+      console.error('Error converting deciliters to cups:', error);
+      setDeciliters('');
       setCups('');
-      return;
     }
-    const decilitersValue = parseFloat(value);
-    const cupsValue = decilitersValue * 0.422675; // 1 dl is approximately 0.422675 cups
-    setCups(cupsValue.toFixed(2).toString() + ' cups');
   };
 
   const handleCupsChange = (value) => {
-    value = value.replace(/,/g, '.');
+    try {
+      value = value.replace(/,/g, '.');
 
-    setCups(value);
-    if (value === '') {
+      setCups(value);
+
+      if (value === '') {
+        setDeciliters('');
+        return;
+      }
+
+      const cupsValue = parseFloat(value);
+      if (isNaN(cupsValue)) {
+        setDeciliters('');
+        return;
+      }
+
+      const decilitersValue = cupsValue / 0.422675; 
+      setDeciliters(decilitersValue.toFixed(2) + ' dl');
+    } catch (error) {
+      console.error('Error converting cups to deciliters:', error);
       setDeciliters('');
-      return;
+      setCups('');
     }
-    const cupsValue = parseFloat(value);
-    const decilitersValue = cupsValue / 0.422675; // 1 cup is approximately 2.366 deciliters
-    setDeciliters(decilitersValue.toFixed(2).toString() + ' dl');
   };
 
-  const clearInput = () => {
-    setDeciliters('');
-    setCups('');
+  const clearInput = (setInput) => {
+    setInput('');
   };
 
   return (
@@ -44,16 +69,16 @@ const CupsToDeciliters = () => {
         placeholder="Cups"
         value={cups}
         onChangeText={handleCupsChange}
-        onFocus={clearInput}
+        onFocus={() => clearInput(setCups)}
         keyboardType="numeric"
       />
-      <CustomIcon size={20} color="white" />
+      <CustomIcon />
       <TextInput
         style={styles.input}
         placeholder="Deciliters (dl)"
         value={deciliters}
         onChangeText={handleDecilitersChange}
-        onFocus={clearInput}
+        onFocus={() => clearInput(setDeciliters)}
         keyboardType="numeric"
       />
     </View>
@@ -70,7 +95,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 10,
-    margin: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 8,
+    marginRight: 8,
     paddingTop: 15,
     paddingBottom: 15,
     paddingLeft: 10,

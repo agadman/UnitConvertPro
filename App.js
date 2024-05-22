@@ -1,3 +1,4 @@
+require('dotenv').config();
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, ImageBackground, TouchableWithoutFeedback, Keyboard } from 'react-native';
@@ -7,6 +8,10 @@ import LengthUnits from './components/LengthUnits';
 import WeightAndVolume from './components/WeightAndVolume';
 
 export default function App() {
+  const appleId = process.env.APPLE_ID;
+  const ascAppId = process.env.ASC_APP_ID;
+  const appleTeamId = process.env.APPLE_TEAM_ID;
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
@@ -58,7 +63,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
     marginTop: 100,
-    marginBottom: 5, 
+    marginBottom: 5,
   },
   swiper: {
     alignSelf: 'center',

@@ -1,4 +1,3 @@
-require('dotenv').config();
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, ImageBackground, TouchableWithoutFeedback, Keyboard } from 'react-native';

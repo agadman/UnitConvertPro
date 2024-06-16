@@ -1,30 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Text, ImageBackground, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, View, Text, ImageBackground, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
 import Swiper from 'react-native-swiper';
 import FavoriteConverters from './components/FavoriteConverters';
 import LengthUnits from './components/LengthUnits';
 import WeightAndVolume from './components/WeightAndVolume';
 
 export default function App() {
-  const appleId = process.env.APPLE_ID;
-  const ascAppId = process.env.ASC_APP_ID;
-  const appleTeamId = process.env.APPLE_TEAM_ID;
+  const [marginTop, setMarginTop] = useState(0);
+  const [bottom, setBottom] = useState(0);
+
+  const updateMarginTop = () => {
+    const screenHeight = Dimensions.get('window').height;
+    if (screenHeight < 700) {
+      setMarginTop(45);
+      setBottom(0);
+    } else {
+      setMarginTop(120);
+      setBottom(30);
+    }
+  };
+
+  useEffect(() => {
+    updateMarginTop(); 
+    const subscription = Dimensions.addEventListener('change', updateMarginTop);
+    return () => {
+      subscription?.remove(); 
+    };
+  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
         <ImageBackground source={require("./assets/background-green.jpg")} style={styles.backgroundImage}>
           <StatusBar style="auto" />
-          <View style={styles.textContainer}>
+          <View style={[styles.textContainer, { marginTop }]}>
             <Text style={styles.header}>Converter</Text>
           </View>
           <Swiper
             style={styles.swiper}
             showsPagination={true}
             loop={false}
-            dotStyle={styles.paginationDot}
-            activeDotStyle={styles.activePaginationDot}
+            dotStyle={[styles.paginationDot, { bottom }]}
+            activeDotStyle={[styles.activePaginationDot, { bottom }]}
           >
             <View style={styles.slide}>
               <FavoriteConverters />
@@ -53,7 +71,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textContainer: {
-    marginTop: 20,
+    marginTop: 70,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -61,7 +79,6 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     color: 'white',
-    marginTop: 100,
     marginBottom: 5,
   },
   swiper: {

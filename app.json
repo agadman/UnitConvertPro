@@ -2,7 +2,7 @@
   "expo": {
     "name": "UnitConvertPro",
     "slug": "UnitConvertPro",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "sdkVersion": "51.0.0", 
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,7 +18,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.agadman.UnitConvertPro",
-      "buildNumber": "5"
+      "buildNumber": "6"
     },
     "android": {
       "adaptiveIcon": {

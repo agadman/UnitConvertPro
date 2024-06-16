@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { Text, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
 import InchesToCentimeter from './InchesToCentimeter';
 import FeetToMeters from './FeetToMeters';
 import FeetToInches from './FeetToInches';
@@ -8,13 +8,14 @@ import YardsToKilometers from './YardsToKilometers';
 import SquareFeetToSquareMeters from './SquareFeetToSquareMeters';
 
 const LengthUnits = () => {
+  const screenHeight = Dimensions.get('window').height;
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
       <ScrollView>
-        <Text style={styles.text}>Length units</Text>
+        <Text style={[styles.text, { marginBottom: screenHeight < 700 ? 10 : 60 }]}>Length units</Text>
         <InchesToCentimeter />
         <FeetToMeters />
         <FeetToInches />

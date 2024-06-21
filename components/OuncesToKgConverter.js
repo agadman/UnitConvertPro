@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, Text } from 'react-native';
 import CustomIcon from './CustomIcon';
 
 const OuncesToKgConverter = () => {
@@ -7,41 +7,41 @@ const OuncesToKgConverter = () => {
   const [ounces, setOunces] = useState('');
 
   const handleKilogramsChange = (value) => {
-    value = value.replace(/,/g, '.');
+    const cleanValue = value.replace(/,/g, '.').replace(/[^0-9.-]/g, '');
 
-    setKilograms(value);
-    if (value === '') {
+    setKilograms(cleanValue);
+    if (cleanValue === '') {
       setOunces('');
       return;
     }
 
-    const kilogramsValue = parseFloat(value);
+    const kilogramsValue = parseFloat(cleanValue);
     if (isNaN(kilogramsValue)) {
       setOunces('');
       return;
     }
 
     const ouncesValue = kilogramsValue * 35.274;
-    setOunces(ouncesValue.toFixed(2) + ' oz');
+    setOunces(ouncesValue.toFixed(2));
   };
 
   const handleOuncesChange = (value) => {
-    value = value.replace(/,/g, '.');
+    const cleanValue = value.replace(/,/g, '.').replace(/[^0-9.-]/g, '');
 
-    setOunces(value);
-    if (value === '') {
+    setOunces(cleanValue);
+    if (cleanValue === '') {
       setKilograms('');
       return;
     }
 
-    const ouncesValue = parseFloat(value);
+    const ouncesValue = parseFloat(cleanValue);
     if (isNaN(ouncesValue)) {
       setKilograms('');
       return;
     }
 
     const kilogramsValue = ouncesValue / 35.274;
-    setKilograms(kilogramsValue.toFixed(2) + ' kg');
+    setKilograms(kilogramsValue.toFixed(2));
   };
 
   const clearInput = () => {
@@ -51,23 +51,29 @@ const OuncesToKgConverter = () => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Ounces (oz)"
-        value={ounces}
-        onChangeText={handleOuncesChange}
-        onFocus={clearInput}
-        keyboardType="numeric"
-      />
+      <View style={styles.inputWrapper}>
+        <TextInput
+          style={styles.input}
+          placeholder="Ounces (oz)"
+          value={ounces}
+          onChangeText={handleOuncesChange}
+          onFocus={clearInput}
+          keyboardType="numeric"
+        />
+        {ounces !== '' && <Text style={styles.unit}>oz</Text>}
+      </View>
       <CustomIcon />
-      <TextInput
-        style={styles.input}
-        placeholder="Kilograms (kg)"
-        value={kilograms}
-        onChangeText={handleKilogramsChange}
-        onFocus={clearInput}
-        keyboardType="numeric"
-      />
+      <View style={styles.inputWrapper}>
+        <TextInput
+          style={styles.input}
+          placeholder="Kilograms (kg)"
+          value={kilograms}
+          onChangeText={handleKilogramsChange}
+          onFocus={clearInput}
+          keyboardType="numeric"
+        />
+        {kilograms !== '' && <Text style={styles.unit}>kg</Text>}
+      </View>
     </View>
   );
 };
@@ -78,7 +84,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  input: {
+  inputWrapper: {
+    position: 'relative',
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 10,
@@ -86,12 +93,22 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 8,
     marginRight: 8,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 10,
     backgroundColor: 'white',
     width: '40%',
   },
+  input: {
+    flex: 1,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 10,
+    paddingRight: 35, // Space for the unit
+  },
+  unit: {
+    position: 'absolute',
+    right: 10,
+    top: '55%',
+    transform: [{ translateY: -12 }], // Center vertically
+    color: 'gray',
+  },
 });
-
 export default OuncesToKgConverter;

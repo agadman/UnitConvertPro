@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, Text } from 'react-native';
 import CustomIcon from './CustomIcon';
 
 const PintToMilliliters = () => {
@@ -7,7 +7,7 @@ const PintToMilliliters = () => {
   const [pints, setPints] = useState('');
 
   const handleMillilitersChange = (value) => {
-    value = value.replace(/,/g, '.');
+    value = value.replace(/,/g, '.').replace(/[^0-9.-]/g, '');
 
     setMilliliters(value);
     if (value === '') {
@@ -22,11 +22,11 @@ const PintToMilliliters = () => {
     }
 
     const pintsValue = millilitersValue / 473.176;
-    setPints(pintsValue.toFixed(2) + ' pt (US)');
+    setPints(pintsValue.toFixed(2));
   };
 
   const handlePintsChange = (value) => {
-    value = value.replace(/,/g, '.');
+    value = value.replace(/,/g, '.').replace(/[^0-9.-]/g, '');
 
     setPints(value);
     if (value === '') {
@@ -41,7 +41,7 @@ const PintToMilliliters = () => {
     }
 
     const millilitersValue = pintsValue * 473.176;
-    setMilliliters(millilitersValue.toFixed(2) + ' ml');
+    setMilliliters(millilitersValue.toFixed(2));
   };
 
   const clearInput = () => {
@@ -51,23 +51,29 @@ const PintToMilliliters = () => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Pints (US pt)"
-        value={pints}
-        onChangeText={handlePintsChange}
-        onFocus={clearInput}
-        keyboardType="numeric"
-      />
+      <View style={styles.inputWrapper}>
+        <TextInput
+          style={styles.input}
+          placeholder="Pints (pt)"
+          value={pints}
+          onChangeText={handlePintsChange}
+          onFocus={clearInput}
+          keyboardType="numeric"
+        />
+        {pints !== '' && <Text style={styles.unit}>pt (US)</Text>}
+      </View>
       <CustomIcon />
-      <TextInput
-        style={styles.input}
-        placeholder="Milliliters (ml)"
-        value={milliliters}
-        onChangeText={handleMillilitersChange}
-        onFocus={clearInput}
-        keyboardType="numeric"
-      />
+      <View style={styles.inputWrapper}>
+        <TextInput
+          style={styles.input}
+          placeholder="Milliliters (ml)"
+          value={milliliters}
+          onChangeText={handleMillilitersChange}
+          onFocus={clearInput}
+          keyboardType="numeric"
+        />
+        {milliliters !== '' && <Text style={styles.unit}>ml</Text>}
+      </View>
     </View>
   );
 };
@@ -78,7 +84,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  input: {
+  inputWrapper: {
+    position: 'relative',
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 10,
@@ -86,12 +93,22 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 8,
     marginRight: 8,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 10,
     backgroundColor: 'white',
     width: '40%',
   },
+  input: {
+    flex: 1,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 10,
+    paddingRight: 50, // Space for the unit
+  },
+  unit: {
+    position: 'absolute',
+    right: 10,
+    top: '55%',
+    transform: [{ translateY: -12 }], // Center vertically
+    color: 'gray',
+  },
 });
-
 export default PintToMilliliters;

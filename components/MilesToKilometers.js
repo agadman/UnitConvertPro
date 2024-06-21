@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, Text } from 'react-native';
 import CustomIcon from './CustomIcon';
 
 const MilesToKilometers = () => {
@@ -7,41 +7,41 @@ const MilesToKilometers = () => {
   const [miles, setMiles] = useState('');
 
   const handleKilometersChange = (value) => {
-    value = value.replace(/,/g, '.');
+    const cleanValue = value.replace(/,/g, '.').replace(/[^0-9.-]/g, '');
 
-    setKilometers(value);
-    if (value === '') {
+    setKilometers(cleanValue);
+    if (cleanValue === '') {
       setMiles('');
       return;
     }
 
-    const kilometersValue = parseFloat(value);
+    const kilometersValue = parseFloat(cleanValue);
     if (isNaN(kilometersValue)) {
       setMiles('');
       return;
     }
 
     const milesValue = kilometersValue / 1.60934;
-    setMiles(milesValue.toFixed(2) + ' miles');
+    setMiles(milesValue.toFixed(2));
   };
 
   const handleMilesChange = (value) => {
-    value = value.replace(/,/g, '.');
+    const cleanValue = value.replace(/,/g, '.').replace(/[^0-9.-]/g, '');
 
-    setMiles(value);
-    if (value === '') {
+    setMiles(cleanValue);
+    if (cleanValue === '') {
       setKilometers('');
       return;
     }
 
-    const milesValue = parseFloat(value);
+    const milesValue = parseFloat(cleanValue);
     if (isNaN(milesValue)) {
       setKilometers('');
       return;
     }
 
     const kilometersValue = milesValue * 1.60934;
-    setKilometers(kilometersValue.toFixed(2) + ' km');
+    setKilometers(kilometersValue.toFixed(2));
   };
 
   const clearInput = () => {
@@ -51,23 +51,29 @@ const MilesToKilometers = () => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Miles (US miles)"
-        value={miles}
-        onChangeText={handleMilesChange}
-        onFocus={clearInput}
-        keyboardType="numeric"
-      />
+      <View style={styles.inputWrapper}>
+        <TextInput
+          style={styles.input}
+          placeholder="Miles (US miles)"
+          value={miles}
+          onChangeText={handleMilesChange}
+          onFocus={clearInput}
+          keyboardType="numeric"
+        />
+        {miles !== '' && <Text style={styles.unit}>miles</Text>}
+      </View>
       <CustomIcon />
-      <TextInput
-        style={styles.input}
-        placeholder="Kilometers (km)"
-        value={kilometers}
-        onChangeText={handleKilometersChange}
-        onFocus={clearInput}
-        keyboardType="numeric"
-      />
+      <View style={styles.inputWrapper}>
+        <TextInput
+          style={styles.input}
+          placeholder="Kilometers (km)"
+          value={kilometers}
+          onChangeText={handleKilometersChange}
+          onFocus={clearInput}
+          keyboardType="numeric"
+        />
+        {kilometers !== '' && <Text style={styles.unit}>km</Text>}
+      </View>
     </View>
   );
 };
@@ -78,7 +84,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  input: {
+  inputWrapper: {
+    position: 'relative',
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 10,
@@ -86,12 +93,22 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 8,
     marginRight: 8,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 10,
     backgroundColor: 'white',
     width: '40%',
   },
+  input: {
+    flex: 1,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 10,
+    paddingRight: 50, // Space for the unit
+  },
+  unit: {
+    position: 'absolute',
+    right: 10,
+    top: '55%',
+    transform: [{ translateY: -12 }], // Center vertically
+    color: 'gray',
+  },
 });
-
 export default MilesToKilometers;

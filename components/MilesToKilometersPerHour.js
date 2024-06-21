@@ -2,51 +2,51 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Text } from 'react-native';
 import CustomIcon from './CustomIcon';
 
-const InchesToCentimeter = () => {
-  const [centimeters, setCentimeters] = useState('');
-  const [inches, setInches] = useState('');
+const MilesToKilometersPerHour = () => {
+  const [kilometersPerHour, setKilometersPerHour] = useState('');
+  const [milesPerHour, setMilesPerHour] = useState('');
 
-  const handleCentimetersChange = (value) => {
+  const handleKilometersPerHourChange = (value) => {
     const cleanValue = value.replace(/,/g, '.').replace(/[^0-9.-]/g, '');
 
-    setCentimeters(cleanValue);
+    setKilometersPerHour(cleanValue);
     if (cleanValue === '') {
-      setInches('');
+      setMilesPerHour('');
       return;
     }
 
-    const centimetersValue = parseFloat(cleanValue);
-    if (isNaN(centimetersValue)) {
-      setInches('');
+    const kilometersValue = parseFloat(cleanValue);
+    if (isNaN(kilometersValue)) {
+      setMilesPerHour('');
       return;
     }
 
-    const inchesValue = centimetersValue / 2.54;
-    setInches(inchesValue.toFixed(2));
+    const milesValue = kilometersValue / 1.60934;
+    setMilesPerHour(milesValue.toFixed(2));
   };
 
-  const handleInchesChange = (value) => {
+  const handleMilesPerHourChange = (value) => {
     const cleanValue = value.replace(/,/g, '.').replace(/[^0-9.-]/g, '');
 
-    setInches(cleanValue);
+    setMilesPerHour(cleanValue);
     if (cleanValue === '') {
-      setCentimeters('');
+      setKilometersPerHour('');
       return;
     }
 
-    const inchesValue = parseFloat(cleanValue);
-    if (isNaN(inchesValue)) {
-      setCentimeters('');
+    const milesValue = parseFloat(cleanValue);
+    if (isNaN(milesValue)) {
+      setKilometersPerHour('');
       return;
     }
 
-    const centimetersValue = inchesValue * 2.54;
-    setCentimeters(centimetersValue.toFixed(2));
+    const kilometersValue = milesValue * 1.60934;
+    setKilometersPerHour(kilometersValue.toFixed(2));
   };
 
   const clearInput = () => {
-    setCentimeters('');
-    setInches('');
+    setKilometersPerHour('');
+    setMilesPerHour('');
   };
 
   return (
@@ -54,25 +54,25 @@ const InchesToCentimeter = () => {
       <View style={styles.inputWrapper}>
         <TextInput
           style={styles.input}
-          placeholder="Inches (in)"
-          value={inches}
-          onChangeText={handleInchesChange}
+          placeholder="Miles per hour (mph)"
+          value={milesPerHour}
+          onChangeText={handleMilesPerHourChange}
           onFocus={clearInput}
           keyboardType="numeric"
         />
-        {inches !== '' && <Text style={styles.unit}>in</Text>}
+        {milesPerHour !== '' && <Text style={styles.unit}>mph</Text>}
       </View>
       <CustomIcon />
       <View style={styles.inputWrapper}>
         <TextInput
           style={styles.input}
-          placeholder="Centimeters (cm)"
-          value={centimeters}
-          onChangeText={handleCentimetersChange}
+          placeholder="Kilometers per hour (km/h)"
+          value={kilometersPerHour}
+          onChangeText={handleKilometersPerHourChange}
           onFocus={clearInput}
           keyboardType="numeric"
         />
-        {centimeters !== '' && <Text style={styles.unit}>cm</Text>}
+        {kilometersPerHour !== '' && <Text style={styles.unit}>km/h</Text>}
       </View>
     </View>
   );
@@ -101,14 +101,14 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15,
     paddingLeft: 10,
-    paddingRight: 25, // Space for the unit
+    paddingRight: 50, // Space for the unit
   },
   unit: {
     position: 'absolute',
     right: 10,
-    top: '60%',
+    top: '55%',
     transform: [{ translateY: -12 }], // Center vertically
     color: 'gray',
   },
 });
-export default InchesToCentimeter;
+export default MilesToKilometersPerHour;

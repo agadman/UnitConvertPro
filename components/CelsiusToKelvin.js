@@ -2,51 +2,63 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Text } from 'react-native';
 import CustomIcon from './CustomIcon';
 
-const InchesToCentimeter = () => {
-  const [centimeters, setCentimeters] = useState('');
-  const [inches, setInches] = useState('');
+const CelsiusToKelvin = () => {
+  const [celsius, setCelsius] = useState('');
+  const [kelvin, setKelvin] = useState('');
 
-  const handleCentimetersChange = (value) => {
+  const handleCelsiusChange = (value) => {
     const cleanValue = value.replace(/,/g, '.').replace(/[^0-9.-]/g, '');
 
-    setCentimeters(cleanValue);
+    if (isNaN(cleanValue)) {
+      setCelsius('');
+      setKelvin('');
+      return;
+    }
+
+    setCelsius(cleanValue);
     if (cleanValue === '') {
-      setInches('');
+      setKelvin('');
       return;
     }
 
-    const centimetersValue = parseFloat(cleanValue);
-    if (isNaN(centimetersValue)) {
-      setInches('');
+    const celsiusValue = parseFloat(cleanValue);
+    if (isNaN(celsiusValue)) {
+      setKelvin('');
       return;
     }
 
-    const inchesValue = centimetersValue / 2.54;
-    setInches(inchesValue.toFixed(2));
+    const kelvinValue = celsiusValue + 273.15;
+    setKelvin(kelvinValue.toFixed(2));
   };
 
-  const handleInchesChange = (value) => {
+  const handleKelvinChange = (value) => {
     const cleanValue = value.replace(/,/g, '.').replace(/[^0-9.-]/g, '');
 
-    setInches(cleanValue);
+    if (isNaN(cleanValue)) {
+      setCelsius('');
+      setKelvin('');
+      return;
+    }
+
+    setKelvin(cleanValue);
     if (cleanValue === '') {
-      setCentimeters('');
+      setCelsius('');
       return;
     }
 
-    const inchesValue = parseFloat(cleanValue);
-    if (isNaN(inchesValue)) {
-      setCentimeters('');
+    const kelvinValue = parseFloat(cleanValue);
+    if (isNaN(kelvinValue)) {
+      setCelsius('');
       return;
     }
 
-    const centimetersValue = inchesValue * 2.54;
-    setCentimeters(centimetersValue.toFixed(2));
+    const celsiusValue = kelvinValue - 273.15;
+    setCelsius(celsiusValue.toFixed(2));
   };
 
   const clearInput = () => {
-    setCentimeters('');
-    setInches('');
+    setCelsius('');
+    setKelvin('');
   };
 
   return (
@@ -54,25 +66,25 @@ const InchesToCentimeter = () => {
       <View style={styles.inputWrapper}>
         <TextInput
           style={styles.input}
-          placeholder="Inches (in)"
-          value={inches}
-          onChangeText={handleInchesChange}
-          onFocus={clearInput}
+          placeholder="Kelvin (K)"
+          value={kelvin}
+          onChangeText={handleKelvinChange}
+          onFocus={() => clearInput(setKelvin)}
           keyboardType="numeric"
         />
-        {inches !== '' && <Text style={styles.unit}>in</Text>}
+        {kelvin !== '' && <Text style={styles.unit}>K</Text>}
       </View>
       <CustomIcon />
       <View style={styles.inputWrapper}>
         <TextInput
           style={styles.input}
-          placeholder="Centimeters (cm)"
-          value={centimeters}
-          onChangeText={handleCentimetersChange}
-          onFocus={clearInput}
+          placeholder="Celsius (C)"
+          value={celsius}
+          onChangeText={handleCelsiusChange}
+          onFocus={() => clearInput(setCelsius)}
           keyboardType="numeric"
         />
-        {centimeters !== '' && <Text style={styles.unit}>cm</Text>}
+        {celsius !== '' && <Text style={styles.unit}>C</Text>}
       </View>
     </View>
   );
@@ -106,9 +118,10 @@ const styles = StyleSheet.create({
   unit: {
     position: 'absolute',
     right: 10,
-    top: '60%',
+    top: '55%',
     transform: [{ translateY: -12 }], // Center vertically
     color: 'gray',
   },
 });
-export default InchesToCentimeter;
+
+export default CelsiusToKelvin;

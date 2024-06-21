@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text, ImageBackground, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
 import Swiper from 'react-native-swiper';
 import FavoriteConverters from './components/FavoriteConverters';
 import LengthUnits from './components/LengthUnits';
 import WeightAndVolume from './components/WeightAndVolume';
+
+const MemoizedFavoriteConverters = memo(FavoriteConverters);
+const MemoizedLengthUnits = memo(LengthUnits);
+const MemoizedWeightAndVolume = memo(WeightAndVolume);
 
 export default function App() {
   const [marginTop, setMarginTop] = useState(0);
@@ -16,7 +20,7 @@ export default function App() {
       setMarginTop(45);
       setBottom(0);
     } else {
-      setMarginTop(120);
+      setMarginTop(100);
       setBottom(30);
     }
   };
@@ -40,18 +44,21 @@ export default function App() {
           <Swiper
             style={styles.swiper}
             showsPagination={true}
-            loop={false}
+            loop={true}
             dotStyle={[styles.paginationDot, { bottom }]}
             activeDotStyle={[styles.activePaginationDot, { bottom }]}
+            loadMinimal
+            loadMinimalSize={1}
+            scrollEnabled={true}
           >
             <View style={styles.slide}>
-              <FavoriteConverters />
+              <MemoizedFavoriteConverters />
             </View>
             <View style={styles.slide}>
-              <LengthUnits />
+              <MemoizedLengthUnits />
             </View>
             <View style={styles.slide}>
-              <WeightAndVolume />
+              <MemoizedWeightAndVolume />
             </View>
           </Swiper>
         </ImageBackground>

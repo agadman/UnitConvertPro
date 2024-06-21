@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, Text } from 'react-native';
 import CustomIcon from './CustomIcon';
 
 const QuartToMilliliters = () => {
@@ -22,7 +22,7 @@ const QuartToMilliliters = () => {
     }
 
     const quartsValue = millilitersValue * 0.001057;
-    setQuarts(quartsValue.toFixed(2) + ' qt');
+    setQuarts(quartsValue.toFixed(2));
   };
 
   const handleQuartsChange = (value) => {
@@ -41,7 +41,7 @@ const QuartToMilliliters = () => {
     }
 
     const millilitersValue = quartsValue / 0.001057;
-    setMilliliters(millilitersValue.toFixed(2) + ' ml');
+    setMilliliters(millilitersValue.toFixed(2));
   };
 
   const clearInput = () => {
@@ -51,23 +51,29 @@ const QuartToMilliliters = () => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Quarts (qt)"
-        value={quarts}
-        onChangeText={handleQuartsChange}
-        onFocus={clearInput}
-        keyboardType="numeric"
-      />
+      <View style={styles.inputWrapper}>
+        <TextInput
+          style={styles.input}
+          placeholder="Quarts (qt)"
+          value={quarts}
+          onChangeText={handleQuartsChange}
+          onFocus={clearInput}
+          keyboardType="numeric"
+        />
+        {quarts !== '' && <Text style={styles.unit}>qt</Text>}
+      </View>
       <CustomIcon />
-      <TextInput
-        style={styles.input}
-        placeholder="Milliliters (ml)"
-        value={milliliters}
-        onChangeText={handleMillilitersChange}
-        onFocus={clearInput}
-        keyboardType="numeric"
-      />
+      <View style={styles.inputWrapper}>
+        <TextInput
+          style={styles.input}
+          placeholder="Milliliters (ml)"
+          value={milliliters}
+          onChangeText={handleMillilitersChange}
+          onFocus={clearInput}
+          keyboardType="numeric"
+        />
+        {milliliters !== '' && <Text style={styles.unit}>ml</Text>}
+      </View>
     </View>
   );
 };
@@ -78,7 +84,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  input: {
+  inputWrapper: {
+    position: 'relative',
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 10,
@@ -86,12 +93,22 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 8,
     marginRight: 8,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 10,
     backgroundColor: 'white',
     width: '40%',
   },
+  input: {
+    flex: 1,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 10,
+    paddingRight: 50, // Space for the unit
+  },
+  unit: {
+    position: 'absolute',
+    right: 10,
+    top: '55%',
+    transform: [{ translateY: -12 }], // Center vertically
+    color: 'gray',
+  },
 });
-
 export default QuartToMilliliters;

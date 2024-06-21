@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { Text, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, Dimensions, TouchableOpacity } from 'react-native';
 import InchesToCentimeter from './InchesToCentimeter';
 import FeetToMeters from './FeetToMeters';
 import FeetToInches from './FeetToInches';
@@ -9,19 +9,27 @@ import SquareFeetToSquareMeters from './SquareFeetToSquareMeters';
 
 const LengthUnits = () => {
   const screenHeight = Dimensions.get('window').height;
+  const [key, setKey] = useState(0);
+
+  const clearAll = () => {
+    setKey(prevKey => prevKey + 1);
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
-      <ScrollView>
-        <Text style={[styles.text, { marginBottom: screenHeight < 700 ? 10 : 60 }]}>Length units</Text>
+      <ScrollView key={key}>
+        <Text style={[styles.text, { marginBottom: screenHeight < 700 ? 10 : 40 }]}>Length units</Text>
         <InchesToCentimeter />
         <FeetToMeters />
         <FeetToInches />
         <MilesToKilometers />
         <YardsToKilometers />
         <SquareFeetToSquareMeters />
+        <TouchableOpacity style={styles.clearButton} onPress={clearAll}>
+          <Text style={styles.clearButtonText}>Clear all</Text>
+        </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -32,8 +40,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'white',
     textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 60,
+  },
+  clearButton: {
+    marginTop: 20,
+    alignSelf: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  clearButtonText: {
+    color: 'white',
+    fontSize: 16,
   },
 });
 export default LengthUnits;

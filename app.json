@@ -2,8 +2,8 @@
   "expo": {
     "name": "UnitConvertPro",
     "slug": "UnitConvertPro",
-    "version": "1.0.3",
-    "sdkVersion": "51.0.0", 
+    "version": "1.0.4",
+    "sdkVersion": "54.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -18,7 +18,10 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.agadman.UnitConvertPro",
-      "buildNumber": "7"
+      "buildNumber": "8",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -33,6 +36,9 @@
       "eas": {
         "projectId": "772f92b9-16b4-4aec-8794-d2a047e402a4"
       }
-    }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }
